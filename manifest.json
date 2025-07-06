@@ -1,0 +1,21 @@
+{
+  "name": "Alya Reminder",
+  "short_name": "Alya",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1018",
+  "theme_color": "#ff5ca1",
+  "description": "Asisten Pribadi Rezky",
+  "icons": [
+    {
+      "src": "media/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "media/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
