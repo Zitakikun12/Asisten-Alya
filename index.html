@@ -8,15 +8,23 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #0e1018;
+      background: linear-gradient(135deg, #0e1018 0%, #1a1d29 100%);
       color: #e0e0e0;
       padding: 20px;
       text-align: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
     }
     h1 {
       color: #ff5ca1;
-      font-size: 2em;
+      font-size: 2.2em;
       margin-bottom: 5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
     p {
       font-size: 0.95em;
@@ -28,44 +36,55 @@
       height: 180px;
       object-fit: cover;
       margin-top: 25px;
-      border-radius: 12px;
+      border-radius: 50%;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 15px rgba(255, 92, 161, 0.3);
+      border: 4px solid #ff5ca1;
     }
     textarea {
       width: 90%;
       height: 100px;
-      padding: 10px;
+      padding: 12px;
       margin-top: 20px;
       background: #1b1f2d;
       color: #fff;
       border: 1px solid #444;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 1em;
       resize: none;
+      transition: all 0.3s ease;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #ff5ca1;
+      box-shadow: 0 0 10px rgba(255, 92, 161, 0.3);
     }
     button {
       margin-top: 15px;
-      padding: 12px 30px;
+      padding: 14px 35px;
       background: linear-gradient(90deg, #ff5ca1, #ff82bf);
       color: #fff;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
       font-weight: bold;
       font-size: 1em;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(255, 92, 161, 0.3);
     }
     button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(255, 92, 161, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(255, 92, 161, 0.4);
+    }
+    button:active {
+      transform: translateY(-1px);
     }
     .response-box {
       margin-top: 25px;
       padding: 18px;
       background: #1a1d29;
       border-left: 4px solid #ff5ca1;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 1.1em;
       color: #c8e6c9;
       max-width: 90%;
@@ -73,6 +92,7 @@
       margin-right: auto;
       line-height: 1.6;
       text-align: left;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     .typing-indicator {
       display: inline-block;
@@ -98,295 +118,52 @@
       margin-top: 20px;
       padding: 15px;
       background: #1b1f2d;
-      border-radius: 8px;
-      text-align: left;
-      max-width: 90%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .schedule-title {
-      color: #ff5ca1;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .schedule-item {
-      margin-bottom: 8px;
-      display: flex;
-    }
-    .schedule-time {
-      color: #aaa;
-      min-width: 80px;
-    }
-    .schedule-activity {
-      color: #e0e0e0;
-    }
-    .notification-permission {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1b1f2d;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 1000;
-      max-width: 90%;
-      width: 400px;
-      border-left: 4px solid #ff5ca1;
-      display: none;
-    }
-    .notification-permission p {
-      margin: 0 0 10px 0;
-      color: #e0e0e0;
-      text-align: left;
-    }
-    .notification-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-    .notification-buttons button {
-      padding: 8px 16px;
-      margin-top: 0;
-      font-size: 0.9em;
-    }
-    .notification-buttons .deny {
-      background: #444;
-    }
-    .notification-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #ff5ca1;
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: bold;
-    }
-    .voice-recording {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 10px;
-    }
-    .voice-btn {
-      background: #ff5ca1;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      margin: 0 10px;
-      transition: all 0.3s ease;
-    }
-    .voice-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px rgba(255, 92, 161, 0.5);
-    }
-    .voice-btn.recording {
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 92, 161, 0.7); }
-      70% { box-shadow: 0 0 0 15px rgba(255, 92, 161, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 92, 161, 0); }
-    }
-    .voice-status {
-      color: #ff5ca1;
-      font-size: 0.9em;
-      margin-top: 5px;
-    }
-  </style>
-</head>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0e1018;
-      color: #e0e0e0;
-      padding: 20px;
-      text-align: center;
-    }
-    h1 {
-      color: #ff5ca1;
-      font-size: 2em;
-      margin-bottom: 5px;
-    }
-    p {
-      font-size: 0.95em;
-      color: #aaa;
-      margin-top: 0;
-    }
-    .alya-img {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
-      margin-top: 25px;
       border-radius: 12px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    textarea {
-      width: 90%;
-      height: 100px;
-      padding: 10px;
-      margin-top: 20px;
-      background: #1b1f2d;
-      color: #fff;
-      border: 1px solid #444;
-      border-radius: 8px;
-      font-size: 1em;
-      resize: none;
-    }
-    button {
-      margin-top: 15px;
-      padding: 12px 30px;
-      background: linear-gradient(90deg, #ff5ca1, #ff82bf);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1em;
-      transition: all 0.3s ease;
-    }
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(255, 92, 161, 0.3);
-    }
-    .response-box {
-      margin-top: 25px;
-      padding: 18px;
-      background: #1a1d29;
-      border-left: 4px solid #ff5ca1;
-      border-radius: 8px;
-      font-size: 1.1em;
-      color: #c8e6c9;
-      max-width: 90%;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-      text-align: left;
-    }
-    .typing-indicator {
-      display: inline-block;
-      margin-left: 5px;
-    }
-    .typing-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background-color: #ff5ca1;
-      border-radius: 50%;
-      margin-right: 3px;
-      animation: typingAnimation 1.4s infinite ease-in-out;
-    }
-    .typing-dot:nth-child(1) { animation-delay: 0s; }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typingAnimation {
-      0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-5px); }
-    }
-    .schedule-box {
-      margin-top: 20px;
-      padding: 15px;
-      background: #1b1f2d;
-      border-radius: 8px;
       text-align: left;
       max-width: 90%;
       margin-left: auto;
       margin-right: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     .schedule-title {
       color: #ff5ca1;
       font-weight: bold;
       margin-bottom: 10px;
+      font-size: 1.1em;
     }
     .schedule-item {
       margin-bottom: 8px;
       display: flex;
     }
     .schedule-time {
-      color: #aaa;
+      color: #ff82bf;
       min-width: 80px;
+      font-weight: 500;
     }
     .schedule-activity {
       color: #e0e0e0;
-    }
-    .notification-permission {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #1b1f2d;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 1000;
-      max-width: 90%;
-      width: 400px;
-      border-left: 4px solid #ff5ca1;
-      display: none;
-    }
-    .notification-permission p {
-      margin: 0 0 10px 0;
-      color: #e0e0e0;
-      text-align: left;
-    }
-    .notification-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-    .notification-buttons button {
-      padding: 8px 16px;
-      margin-top: 0;
-      font-size: 0.9em;
-    }
-    .notification-buttons .deny {
-      background: #444;
-    }
-    .notification-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #ff5ca1;
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: bold;
     }
     .voice-recording {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 10px;
+      margin-top: 15px;
     }
     .voice-btn {
       background: #ff5ca1;
       border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       margin: 0 10px;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(255, 92, 161, 0.3);
     }
     .voice-btn:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
       box-shadow: 0 0 15px rgba(255, 92, 161, 0.5);
     }
     .voice-btn.recording {
@@ -400,140 +177,61 @@
     .voice-status {
       color: #ff5ca1;
       font-size: 0.9em;
-      margin-top: 5px;
+      margin-top: 8px;
+    }
+    .footer {
+      margin-top: 30px;
+      color: #666;
+      font-size: 0.8em;
     }
   </style>
 </head>
 <body>
-  <h1>🌸 Alya - Asisten Pribadi Rezky</h1>
-  <p>Alya akan membantumu tetap disiplin dengan jadwal Siap Kerja & Siap Tinggi~</p>
-  <img class="alya-img" id="alya-avatar" src="media/neutral.jpg" alt="Alya">
+  <div class="container">
+    <h1>🌸 Alya - Asisten Pribadi Rezky</h1>
+    <p>Alya akan membantumu tetap disiplin dengan jadwal Siap Kerja & Siap Tinggi~</p>
+    <img class="alya-img" id="alya-avatar" src="https://placehold.co/180x180/ff5ca1/ffffff?text=ALYA" alt="Alya">
 
-  <div class="response-box" id="status">🌸 Alya siap membantumu hari ini!</div>
+    <div class="response-box" id="status">🌸 Alya siap membantumu hari ini!</div>
 
-  <div class="schedule-box" id="current-schedule">
-    <div class="schedule-title">⏰ Jadwal Saat Ini:</div>
-    <div id="schedule-content">Memuat jadwal...</div>
-  </div>
-
-  <textarea id="input" placeholder="Tulis pesan untuk Alya di sini..."></textarea><br>
-  <button onclick="kirimKeAlya()">Kirim ke Alya</button>
-  
-  <div class="voice-recording">
-    <div class="voice-btn" id="voice-btn" title="Tekan dan tahan untuk merekam">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 1C10.3431 1 9 2.34315 9 4V12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12V4C15 2.34315 13.6569 1 12 1Z" fill="white"/>
-        <path d="M5 11C5.55228 11 6 11.4477 6 12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12C18 11.4477 18.4477 11 19 11C19.5523 11 20 11.4477 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 11.4477 4.44772 11 5 11Z" fill="white"/>
-      </svg>
+    <div class="schedule-box" id="current-schedule">
+      <div class="schedule-title">⏰ Jadwal Saat Ini:</div>
+      <div id="schedule-content">Memuat jadwal...</div>
     </div>
-  </div>
-  <div class="voice-status" id="voice-status"></div>
-  
-  <div class="response-box" id="chat-result">💬 Percakapan akan muncul di sini...</div>
 
-  <div class="notification-permission" id="notificationPermissionBanner">
-    <p>Alya ingin mengirimkan notifikasi jadwal dan pengingat. Izinkan notifikasi?</p>
-    <div class="notification-buttons">
-      <button class="deny" onclick="denyNotifications()">Nanti Saja</button>
-      <button onclick="requestNotificationPermission()">Izinkan</button>
+    <textarea id="input" placeholder="Tulis pesan untuk Alya di sini..."></textarea><br>
+    <button onclick="kirimKeAlya()">Kirim ke Alya</button>
+    
+    <div class="voice-recording">
+      <div class="voice-btn" id="voice-btn" title="Tekan dan tahan untuk merekam">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 1C10.3431 1 9 2.34315 9 4V12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12V4C15 2.34315 13.6569 1 12 1Z" fill="white"/>
+          <path d="M5 11C5.55228 11 6 11.4477 6 12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12C18 11.4477 18.4477 11 19 11C19.5523 11 20 11.4477 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 11.4477 4.44772 11 5 11Z" fill="white"/>
+        </svg>
+      </div>
+    </div>
+    <div class="voice-status" id="voice-status">Tekan dan tahan tombol untuk merekam</div>
+    
+    <div class="response-box" id="chat-result">💬 Percakapan akan muncul di sini...</div>
+
+    <div class="footer">
+      Dibuat dengan ❤️ untuk Rezky
     </div>
   </div>
 
   <script>
-// Fungsi untuk mendaftarkan push notification
-async function registerPushNotifications() {
-  if (!('serviceWorker' in navigator)) return null;
-  
-  const registration = await navigator.serviceWorker.ready;
-  
-  if (!('PushManager' in window)) return null;
-  
-  // Gunakan VAPID key (buat di https://web-push-codelab.glitch.me/)
-  const vapidPublicKey = 'BLxwXv4O3...'; // Ganti dengan VAPID key Anda
-  
-  const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
-  });
-  
-  return subscription;
-}
-
-// Helper function untuk VAPID key
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/-/g, '+')
-    .replace(/_/g, '/');
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
-
-// Kirim subscription ke server
-async function sendSubscriptionToServer(subscription) {
-  try {
-    const response = await fetch('https://api.diioffc.web.id/api/notifications/subscribe', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        subscription: subscription,
-        userId: 'rezky' // Ganti dengan ID user yang sesuai
-      })
-    });
-    
-    return await response.json();
-  } catch (error) {
-    console.error('Error sending subscription:', error);
-    return null;
-  }
-}
-
-// Perbarui fungsi init()
-async function init() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-      .then(registration => {
-        console.log('ServiceWorker registered');
-        return registration;
-      })
-      .then(registration => {
-        // Cek permission notifikasi
-        if (Notification.permission === 'granted') {
-          return registerPushNotifications()
-            .then(subscription => {
-              if (subscription) {
-                return sendSubscriptionToServer(subscription);
-              }
-            });
-        }
-      })
-      .catch(err => console.log('ServiceWorker registration failed: ', err));
-  }
-
-  }
     const alyaAvatar = document.getElementById('alya-avatar');
     const statusBox = document.getElementById('status');
     const chatResult = document.getElementById('chat-result');
     const inputField = document.getElementById('input');
     const sendButton = document.querySelector('button');
     const scheduleContent = document.getElementById('schedule-content');
-    const notificationBanner = document.getElementById('notificationPermissionBanner');
     const voiceBtn = document.getElementById('voice-btn');
     const voiceStatus = document.getElementById('voice-status');
     
     let lastActivityTime = Date.now();
     let isUserActive = true;
     let currentController = null;
-    let notificationInterval;
-    let notificationPermissionRequested = false;
     let recognition;
     let isRecording = false;
 
@@ -567,14 +265,30 @@ async function init() {
       { time: '21:00', activity: 'Evaluasi mingguan + rencana minggu depan' }
     ];
 
-    const emosiAlya = {
-      happy: 'media/happy.webp',
-      sad: 'media/sad.webp',
-      excited: 'media/excited.webp',
-      neutral: 'media/neutral.jpg',
-      love: 'media/love.webp',
-      thinking: 'media/thinking.webp'
-    };
+    function updateAvatar(emosi) {
+      const colors = {
+        happy: '#ff5ca1',
+        sad: '#ff2e7a',
+        excited: '#ff2e7a',
+        neutral: '#ff5ca1',
+        love: '#ff2e7a',
+        thinking: '#ff82bf'
+      };
+      
+      alyaAvatar.style.borderColor = colors[emosi] || colors.neutral;
+      alyaAvatar.style.transform = 'scale(1.1)';
+      setTimeout(() => { alyaAvatar.style.transform = 'scale(1)'; }, 300);
+    }
+
+    function showTypingIndicator() {
+      chatResult.innerHTML = 'Alya sedang mengetik<span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
+    }
+
+    function cekAktivitasUser() {
+      const now = Date.now();
+      isUserActive = (now - lastActivityTime) < 1800000;
+      setTimeout(cekAktivitasUser, 300000);
+    }
 
     function initVoiceRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -647,94 +361,6 @@ async function init() {
       }
     }
 
-    function updateAvatar(emosi) {
-      const emotion = emosiAlya[emosi] ? emosi : 'neutral';
-      alyaAvatar.src = emosiAlya[emotion];
-      alyaAvatar.style.transform = 'scale(1.1)';
-      setTimeout(() => { alyaAvatar.style.transform = 'scale(1)'; }, 300);
-    }
-
-    function showTypingIndicator() {
-      chatResult.innerHTML = 'Alya sedang mengetik<span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
-    }
-
-    function cekAktivitasUser() {
-      const now = Date.now();
-      isUserActive = (now - lastActivityTime) < 1800000;
-      setTimeout(cekAktivitasUser, 300000);
-    }
-
-    function showNotificationBanner() {
-      if ('Notification' in window && Notification.permission === 'default' && !notificationPermissionRequested) {
-        setTimeout(() => {
-          notificationBanner.style.display = 'block';
-        }, 3000);
-      }
-    }
-
-    function requestNotificationPermission() {
-      notificationPermissionRequested = true;
-      notificationBanner.style.display = 'none';
-      
-      Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          showSystemNotification('Terima kasih!', 'Alya sekarang bisa mengirimkan pengingat jadwal untukmu~');
-          statusBox.textContent = '🌸 Notifikasi diizinkan! Alya bisa mengirimkan pengingat.';
-          updateAvatar('happy');
-        } else {
-          statusBox.textContent = '🌸 Kamu bisa mengaktifkan notifikasi nanti melalui pengaturan browser.';
-          updateAvatar('neutral');
-        }
-      });
-    }
-
-    function denyNotifications() {
-      notificationPermissionRequested = true;
-      notificationBanner.style.display = 'none';
-      statusBox.textContent = '🌸 Kamu bisa mengaktifkan notifikasi nanti melalui pengaturan browser.';
-      updateAvatar('neutral');
-    }
-
-    function showSystemNotification(title, body) {
-      if (!('Notification' in window)) return;
-      
-      if (Notification.permission === 'granted') {
-        navigator.serviceWorker.ready.then(registration => {
-          registration.showNotification(title, {
-            body,
-            icon: 'media/happy.webp',
-            badge: 'media/icon-192x192.png',
-            vibrate: [200, 100, 200]
-          });
-        });
-      }
-    }
-
-    function kirimNotifikasi({ title, body, icon }) {
-      try {
-        if (!('Notification' in window)) return;
-
-        if (Notification.permission === 'granted') {
-          showSystemNotification(title, body);
-          return;
-        }
-
-        if (Notification.permission !== 'denied') {
-          Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-              showSystemNotification(title, body);
-            }
-          });
-        }
-      } catch (error) {
-        console.error("Error notifikasi:", error);
-        if (isUserActive) {
-          statusBox.textContent = `🌸 ${title}: ${body}`;
-          updateAvatar('happy');
-        }
-      }
-    }
-
     function getCurrentSchedule() {
       const now = new Date();
       const day = now.getDay();
@@ -780,63 +406,13 @@ async function init() {
       }
       
       if (schedule.next) {
-        html += `<div class="schedule-item" style="color: #ff5ca1;">
+        html += `<div class="schedule-item">
           <span class="schedule-time">${schedule.next.time}</span>
           <span class="schedule-activity">${schedule.next.activity} (selanjutnya)</span>
         </div>`;
       }
       
       scheduleContent.innerHTML = html;
-    }
-
-    function buatNotifikasiDinamis() {
-      const now = new Date();
-      const hours = now.getHours().toString().padStart(2, '0');
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const currentTime = `${hours}:${minutes}`;
-      const day = now.getDay();
-      const isWeekday = day >= 1 && day <= 5;
-      const schedule = isWeekday ? jadwalHariSekolah : jadwalAkhirPekan;
-
-      schedule.forEach(item => {
-        const [scheduledHour, scheduledMinute] = item.time.split(':').map(Number);
-        
-        if (hours === scheduledHour.toString().padStart(2, '0') && 
-            Math.abs(minutes - scheduledMinute) <= 1) {
-          
-          let notificationTitle, notificationBody;
-          
-          if (item.activity.includes('Olahraga')) {
-            notificationTitle = "🏋️‍♂️ Waktunya Olahraga!";
-            notificationBody = `Saatnya ${item.activity}. Jangan lupa stretching dan lompat untuk pertumbuhan tinggi!`;
-            updateAvatar('excited');
-          } 
-          else if (item.activity.includes('Tidur')) {
-            notificationTitle = "💤 Waktunya Tidur!";
-            notificationBody = "Ayo tidur sebelum jam 22.00 untuk hormon pertumbuhan!";
-            updateAvatar('love');
-          }
-          else if (item.activity.includes('GitHub')) {
-            notificationTitle = "💾 Commit ke GitHub!";
-            notificationBody = "Jangan lupa push pekerjaan hari ini ke GitHub untuk portofolio!";
-            updateAvatar('happy');
-          }
-          else {
-            notificationTitle = "⏰ Jadwal Berikutnya";
-            notificationBody = item.activity;
-            updateAvatar('neutral');
-          }
-          
-          kirimNotifikasi({
-            title: notificationTitle,
-            body: notificationBody
-          });
-          
-          statusBox.textContent = `🌸 ${notificationTitle}: ${notificationBody}`;
-        }
-      });
-      
-      updateScheduleDisplay();
     }
 
     function analyzeMood(text) {
@@ -890,7 +466,7 @@ async function init() {
       const timeoutId = setTimeout(() => currentController.abort(), 10000);
 
       try {
-        // MENGUBAH ENDPOINT API DI SINI
+        // ENDPOINT API YANG TELAH DIUBAH
         const response = await fetch(
           `https://api.siputzx.my.id/api/ai/gpt3?prompt=Helo&content=${encodeURIComponent(inputText)}`,
           { signal: currentController.signal }
@@ -924,19 +500,10 @@ async function init() {
       }
     }
 
-function init() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-          .then(registration => console.log('ServiceWorker registered'))
-          .catch(err => console.log('ServiceWorker registration failed: ', err));
-      }
-
+    function init() {
       updateAvatar('happy');
       cekAktivitasUser();
       updateScheduleDisplay();
-      buatNotifikasiDinamis();
-      notificationInterval = setInterval(buatNotifikasiDinamis, 60000);
-      showNotificationBanner();
       initVoiceRecognition();
       
       document.addEventListener('mousemove', () => lastActivityTime = Date.now());
