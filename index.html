@@ -205,6 +205,205 @@
     }
   </style>
 </head>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0e1018;
+      color: #e0e0e0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #ff5ca1;
+      font-size: 2em;
+      margin-bottom: 5px;
+    }
+    p {
+      font-size: 0.95em;
+      color: #aaa;
+      margin-top: 0;
+    }
+    .alya-img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      margin-top: 25px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    textarea {
+      width: 90%;
+      height: 100px;
+      padding: 10px;
+      margin-top: 20px;
+      background: #1b1f2d;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 8px;
+      font-size: 1em;
+      resize: none;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 30px;
+      background: linear-gradient(90deg, #ff5ca1, #ff82bf);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 92, 161, 0.3);
+    }
+    .response-box {
+      margin-top: 25px;
+      padding: 18px;
+      background: #1a1d29;
+      border-left: 4px solid #ff5ca1;
+      border-radius: 8px;
+      font-size: 1.1em;
+      color: #c8e6c9;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .typing-indicator {
+      display: inline-block;
+      margin-left: 5px;
+    }
+    .typing-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: #ff5ca1;
+      border-radius: 50%;
+      margin-right: 3px;
+      animation: typingAnimation 1.4s infinite ease-in-out;
+    }
+    .typing-dot:nth-child(1) { animation-delay: 0s; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingAnimation {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
+    }
+    .schedule-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: #1b1f2d;
+      border-radius: 8px;
+      text-align: left;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .schedule-title {
+      color: #ff5ca1;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .schedule-item {
+      margin-bottom: 8px;
+      display: flex;
+    }
+    .schedule-time {
+      color: #aaa;
+      min-width: 80px;
+    }
+    .schedule-activity {
+      color: #e0e0e0;
+    }
+    .notification-permission {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1b1f2d;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;
+      max-width: 90%;
+      width: 400px;
+      border-left: 4px solid #ff5ca1;
+      display: none;
+    }
+    .notification-permission p {
+      margin: 0 0 10px 0;
+      color: #e0e0e0;
+      text-align: left;
+    }
+    .notification-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .notification-buttons button {
+      padding: 8px 16px;
+      margin-top: 0;
+      font-size: 0.9em;
+    }
+    .notification-buttons .deny {
+      background: #444;
+    }
+    .notification-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ff5ca1;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .voice-recording {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .voice-btn {
+      background: #ff5ca1;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 0 10px;
+      transition: all 0.3s ease;
+    }
+    .voice-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 92, 161, 0.5);
+    }
+    .voice-btn.recording {
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 92, 161, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(255, 92, 161, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 92, 161, 0); }
+    }
+    .voice-status {
+      color: #ff5ca1;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
+  </style>
+</head>
 <body>
   <h1>🌸 Alya - Asisten Pribadi Rezky</h1>
   <p>Alya akan membantumu tetap disiplin dengan jadwal Siap Kerja & Siap Tinggi~</p>
@@ -241,7 +440,6 @@
   </div>
 
   <script>
-
 // Fungsi untuk mendaftarkan push notification
 async function registerPushNotifications() {
   if (!('serviceWorker' in navigator)) return null;
@@ -692,8 +890,9 @@ async function init() {
       const timeoutId = setTimeout(() => currentController.abort(), 10000);
 
       try {
+        // MENGUBAH ENDPOINT API DI SINI
         const response = await fetch(
-          `https://api.diioffc.web.id/api/ai/luminai?query=${encodeURIComponent(inputText)}&user=rezky`,
+          `https://api.siputzx.my.id/api/ai/gpt3?prompt=Helo&content=${encodeURIComponent(inputText)}`,
           { signal: currentController.signal }
         );
         
@@ -725,7 +924,7 @@ async function init() {
       }
     }
 
-    function init() {
+function init() {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js')
           .then(registration => console.log('ServiceWorker registered'))
